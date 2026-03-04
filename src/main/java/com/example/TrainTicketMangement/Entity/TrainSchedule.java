@@ -13,7 +13,8 @@ public class TrainSchedule {
     private Long id;
 
     private LocalDate journeyDate;
-
+    @Enumerated(EnumType.STRING)
+    private TrainStatus status;
     private Long availableSeats;
 
     @ManyToOne
@@ -23,9 +24,10 @@ public class TrainSchedule {
     @OneToMany(mappedBy = "trainSchedule", cascade = CascadeType.ALL)
     private List<Tickets> tickets;
 
-    public TrainSchedule(Long id, LocalDate journeyDate, Long availableSeats, Train train, List<Tickets> tickets) {
+    public TrainSchedule(Long id, LocalDate journeyDate, TrainStatus status, Long availableSeats, Train train, List<Tickets> tickets) {
         this.id = id;
         this.journeyDate = journeyDate;
+        this.status = status;
         this.availableSeats = availableSeats;
         this.train = train;
         this.tickets = tickets;
@@ -68,6 +70,14 @@ public class TrainSchedule {
 
     public List<Tickets> getTickets() {
         return tickets;
+    }
+
+    public TrainStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TrainStatus status) {
+        this.status = status;
     }
 
     public void setTickets(List<Tickets> tickets) {

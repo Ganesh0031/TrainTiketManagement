@@ -26,7 +26,11 @@ public class UserImpl implements UserService {
         Users savedUser = usersRepository.save(users1);
         return modelMapper.map(savedUser,UserResponse.class);
 
+    }
 
+    @Override
+    public UserResponse loginUser(String username, String password) {
+        return null;
     }
 
 }

@@ -12,9 +12,16 @@ public class Tickets {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true,nullable = false)
+    @SequenceGenerator(
+            name = "ticket_seq",
+            sequenceName = "ticket_sequence",
+            allocationSize = 1
+    )
     private Long ticketNumber;
     private String seatNumber;
     private LocalDateTime  bookDate;
+    private int noOfTickets;
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne
@@ -25,14 +32,23 @@ public class Tickets {
     @JoinColumn(name = "schedule_id")
     private TrainSchedule trainSchedule;
 
-    public Tickets(Long id, Long ticketNumber, String seatNumber, LocalDateTime bookDate, Status status, Users users, TrainSchedule trainSchedule) {
+    public Tickets(Long id, Long ticketNumber, String seatNumber, LocalDateTime bookDate, int noOfTickets, Status status, Users users, TrainSchedule trainSchedule) {
         this.id = id;
         this.ticketNumber = ticketNumber;
         this.seatNumber = seatNumber;
         this.bookDate = bookDate;
+        this.noOfTickets = noOfTickets;
         this.status = status;
         this.users = users;
         this.trainSchedule = trainSchedule;
+    }
+
+    public int getNoOfTickets() {
+        return noOfTickets;
+    }
+
+    public void setNoOfTickets(int noOfTickets) {
+        this.noOfTickets = noOfTickets;
     }
 
     public Tickets() {

@@ -6,4 +6,5 @@ import org.apache.catalina.User;
 
 public interface UserService {
      UserResponse registerUser(UserResponse user);
+     UserResponse loginUser(String username,String password);
 }
