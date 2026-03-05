@@ -9,7 +9,7 @@ import java.util.List;
 public interface TrainService {
     TrainResponse addTrains(TrainRequest trainRequest);
     TrainResponse updateTrains(Long id,TrainRequest trainRequest);
-    TrainResponse deleteTrains(Long id);
+    void deleteTrains(Long id);
     List< TrainResponse> getAllTrain();
     TrainResponse trainGetByTrain(Long id);
 }

@@ -3,6 +3,7 @@ package com.example.TrainTicketMangement.Service.ServiceImpl;
 import com.example.TrainTicketMangement.Entity.Role;
 import com.example.TrainTicketMangement.Entity.Users;
 import com.example.TrainTicketMangement.Repository.UsersRepository;
+import com.example.TrainTicketMangement.Response.UserRequest;
 import com.example.TrainTicketMangement.Response.UserResponse;
 import com.example.TrainTicketMangement.Service.UserService;
 import org.apache.catalina.User;
@@ -20,7 +21,13 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public UserResponse registerUser(UserResponse user) {
+    public UserResponse registerUser(UserRequest user) {
+        if(usersRepository.existsByEmail(user.getEmail())){
+            throw  new RuntimeException("The email id is already exists");
+        }
+        if(!user.getConfirmPassword().equals(user.getPassword())){
+            throw  new RuntimeException("The password is not match");
+        }
         Users users1=modelMapper.map(user,Users.class);
         users1.setRole(Role.User);
         Users savedUser = usersRepository.save(users1);
@@ -29,8 +36,15 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public UserResponse loginUser(String username, String password) {
-        return null;
+    public UserResponse loginUser(String email, String password) {
+        Users user = usersRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid password");
+        }
+        return modelMapper.map(user,UserResponse.class);
+
     }
 
 }
